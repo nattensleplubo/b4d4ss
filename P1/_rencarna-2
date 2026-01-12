@@ -1,0 +1,8 @@
+FROM quay.io/frrouting/frr:9.1.0
+
+RUN apk update && apk upgrade
+
+RUN touch /etc/frr/vtysh.conf && \
+    sed -i /etc/frr/daemons -e 's/bgpd=no/bgpd=yes/' && \
+    sed -i /etc/frr/daemons -e 's/ospfd=no/ospfd=yes/' && \
+    sed -i /etc/frr/daemons -e 's/isisd=no/isisd=yes/'
