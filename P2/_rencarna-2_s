@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # ROUTER 2 – VXLAN MULTICAST (P2)
 
 # Interface underlay
