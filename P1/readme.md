@@ -57,15 +57,15 @@ RUN apk update && apk add --no-cache \
 CMD ["sh"]
 ```
 
-### Lancer la simulation dans GNS3
+### Launch simulation in GNS3
 ```sh
 docker build -t router:latest -f _rencarna-2 . && \
 docker build -t host:latest -f _rencarna-1_host . && \
 gns3 &
 ```
 
-### Verifier la configuration de l'image docker sur GNS3
+### Verify the docker image's config in GNS3
 
-Importer maintenant l'image docker dans l'application
-Ouvrir un terminal auxiliaire
-Regarder si la configuration des composants sont bien active dans le fichier /etc/frr/daemons
+Import the docker image in GNS3
+Open Auxiliary terminal
+Look for the config in /etc/frr/daemons and verify everything is setup
