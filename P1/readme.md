@@ -20,10 +20,15 @@ The **router** must have :
     - **busybox** or an alternative
 
 **busybox**: Small executable that is a shell with small but functional versions of most of the cricical system commands built into it. The intent is to provide as much critical functionality of a unix command line env. as possible in a minimal size for embedded sytems.
+
 **BGP** : Protocol that shares reachability information along with the path a route takes (through autonomous systems). Its main purpose is to decode the best route between autonomous systems, large networks owned by ISPs, companies or cloud providers.
+
 **BGPD**: Border Gateway Protocol routing Daemon. bgpd is a BGP daemon which manages the network routing table. Its main purpose if to exchange information concerning "network reachability" with other BGP systems
+
 **OSPF** : Routing protocol for IP (internet protocol) networks that routers use to share information about network topology. Its used to automatically find the best path for data to travel between networks within a large organization or ISP
+
 **OSPFD**: ospfd is an Open Shortest Path First daemon which manages routing tables.
+
 **IS-IS**: Intermediate System to Intermediate System is a link state interior routing protocol similar in purpose to OSPF. It's used to route traffic within a large network.
 
 ---
