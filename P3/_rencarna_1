@@ -1,0 +1,47 @@
+vtysh << EOF
+
+# Mode Config
+
+conf t
+# Nom du routeur(spine)
+hostname _rencarna-1
+no ipv6 forwarding
+
+# Underlay
+# Lien vers leaf1
+interface eth0
+ ip address 10.1.1.1/30
+# Lien vers leaf2
+interface eth1
+ ip address 10.1.1.5/30
+# Lien vers leaf3
+ interface eth2
+ ip address 10.1.1.9/30
+
+# Loopback
+interface lo
+ ip address 1.1.1.1/32
+
+ # BGP (control plane EVPN)
+router bgp 1
+# Création d’un peer-group iBGP
+ neighbor ibgp peer-group
+# Tous les voisins sont dans le même AS (iBGP)
+ neighbor ibgp remote-as 1
+# Utilisation de la loopback comme source BGP
+ neighbor ibgp update-source lo
+bgp listen range 1.1.1.0/29 peer-group ibgp
+
+# EVPN
+address-family l2vpn evpn
+ neighbor ibgp activate
+ neighbor ibgp route-reflector-client
+exit-address-family
+
+# OSPF
+router ospf
+ network 0.0.0.0/0 area 0
+
+ # VTY
+line vty
+EOF	
