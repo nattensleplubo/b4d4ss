@@ -1,0 +1,54 @@
+# Creates bridge br0 (virtual switch)
+ip link add br0 type bridge
+# Brings the bridge up (activates it)
+ip link set dev br0 up
+# Creates a VXLAN interface named vxlan10
+ip link add vxlan10 type vxlan id 10 dstport 4789
+# Activates the vxlan10 interface
+ip link set dev vxlan10 up
+# Adds vxlan10 to the bridge
+brctl addif br0 vxlan10
+# Adds the local physical interface (eth1) into the bridge
+brctl addif br0 eth1
+
+# Enters the FRRouting shell
+vtysh
+# Enters configuration mode
+conf t
+# Sets the host name
+hostname rencarna-2
+# Disables ipv6 packet forwarding
+no ipv6 forwarding
+
+# Enters configuration eth0
+interface eth0
+# Assigns ip address to eth0
+ip address 10.1.1.2/30
+# Enables OSPF on this interface 
+ip ospf area 0
+
+# Configures the loopback interface
+interface lo
+# Assigns a stable router id (This ip identifies this VTEP)
+ip address 1.1.1.2/32
+# Advertises the loopback into OSPF
+ip ospf area 0
+
+# Starts BGP
+router bgp 1
+# Defines a BGP neighbour 
+neighbor 1.1.1.1 remote-as 1
+# Forces BGP to use source ip = loopback (1.1.1.2)
+neighbor 1.1.1.1 update-source lo
+
+# Enters the EVPN BGP family
+address-family l2vpn evpn
+# Activates the neighbour for EVPN
+neighbor 1.1.1.1 activate
+# Advertises all local VNIs to BGP
+advertise-all-vni
+exit-address-family
+
+# Starts the OSPF routing process
+router ospf
+
